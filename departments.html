@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Departments</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container mt-4">
+
+        <h2>Department Management</h2>
+
+        <hr>
+
+        <button class="btn btn-success mb-3" onclick="showDepartmentModal()">
+            Add Department
+        </button>
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Department Name</th>
+
+                    <th>Description</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="departmentTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="modal fade" id="departmentModal">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+
+                    <h5>Department</h5>
+
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" id="departmentId">
+
+                    <div class="mb-3">
+
+                        <label>Department Name</label>
+
+                        <input id="departmentName" class="form-control">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Description</label>
+
+                        <textarea id="description" class="form-control"></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-success" onclick="saveDepartment()">
+                        Save
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/department.js"></script>
+
+</body>
+
+</html>
