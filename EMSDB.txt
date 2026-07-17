@@ -1,0 +1,275 @@
+--create database EMSDB
+--use EMSDB
+
+
+CREATE TABLE Departments 
+( 
+DepartmentId INT PRIMARY KEY IDENTITY(1,1), 
+DepartmentName NVARCHAR(100) NOT NULL, 
+Description NVARCHAR(250) NULL, 
+IsActive BIT DEFAULT 1, 
+CreatedDate DATETIME DEFAULT GETDATE() 
+);
+
+
+--------------------------------------------
+CREATE TABLE Employees
+(
+    EmployeeId INT PRIMARY KEY IDENTITY(1,1),
+    EmployeeCode NVARCHAR(20) UNIQUE,
+    FirstName NVARCHAR(100),
+    LastName NVARCHAR(100),
+    Email NVARCHAR(150) UNIQUE,
+    Phone NVARCHAR(20),
+    Gender NVARCHAR(10),
+    DOB DATE,
+    Address NVARCHAR(300),
+    DepartmentId INT,
+    Salary DECIMAL(18,2),
+    JoiningDate DATE,
+    Photo NVARCHAR(300),
+    IsActive BIT DEFAULT 1,
+    CreatedDate DATETIME DEFAULT GETDATE(),
+
+    FOREIGN KEY(DepartmentId)
+    REFERENCES Departments(DepartmentId)
+);
+--------------------------------------------
+
+CREATE TABLE Attendance 
+( 
+AttendanceId INT PRIMARY KEY IDENTITY(1,1), 
+EmployeeId INT NOT NULL, 
+AttendanceDate DATE NOT NULL, 
+Status NVARCHAR(20) NOT NULL, 
+FOREIGN KEY(EmployeeId) 
+REFERENCES Employees(EmployeeId) 
+);
+
+
+--------------------------------------------
+CREATE TABLE Users
+(
+    UserId INT PRIMARY KEY IDENTITY,
+
+    UserName NVARCHAR(50),
+
+    PasswordHash NVARCHAR(MAX),
+
+    Role NVARCHAR(20),
+
+    IsActive BIT DEFAULT 1
+);
+--------------------------------------------
+INSERT INTO Departments
+VALUES
+('IT',1,GETDATE()),
+('HR',1,GETDATE()),
+('Finance',1,GETDATE()),
+('Admin',1,GETDATE());
+--------------------------------------------
+CREATE PROC sp_GetEmployees
+AS
+BEGIN
+
+SELECT
+
+EmployeeId,
+EmployeeCode,
+FirstName,
+LastName,
+Email,
+Phone,
+DepartmentName,
+Salary
+
+FROM Employees e
+
+INNER JOIN Departments d
+
+ON e.DepartmentId=d.DepartmentId
+
+END
+--------------------------------------------
+CREATE INDEX IX_Employee_Email
+ON Employees(Email);
+
+CREATE INDEX IX_Department
+ON Employees(DepartmentId);
+--------------------------------------------
+INSERT INTO Users(UserName,PasswordHash,Role,IsActive)
+VALUES
+(
+'admin',
+'$2a$11$QJmM0QqLhC3I4PK2vQ9wWemvWJ4mHqKzE3dV5FJfD8oQb2k2zY9jS',
+'Admin',
+1
+)
+
+
+--------------------------------------------
+
+INSERT INTO Departments
+(
+    DepartmentName,
+    Description,
+    IsActive,
+    CreatedDate
+)
+VALUES
+('IT','Information Technology',1,GETDATE()),
+('HR','Human Resources',1,GETDATE()),
+('Finance','Finance Department',1,GETDATE()),
+('Admin','Administration',1,GETDATE());
+
+
+INSERT INTO Employees
+(
+EmployeeCode,
+FirstName,
+LastName,
+Email,
+Phone,
+Gender,
+DOB,
+Address,
+DepartmentId,
+Salary,
+JoiningDate,
+Photo,
+IsActive
+)
+VALUES
+
+(
+'EMP001',
+'Rahul',
+'Sharma',
+'rahul.sharma@gmail.com',
+'9876543210',
+'Male',
+'1998-05-10',
+'Bhubaneswar, Odisha',
+1,
+45000,
+'2023-01-10',
+NULL,
+1
+),
+
+(
+'EMP002',
+'Priya',
+'Patel',
+'priya.patel@gmail.com',
+'9876543211',
+'Female',
+'1997-03-15',
+'Cuttack, Odisha',
+2,
+42000,
+'2023-02-18',
+NULL,
+1
+),
+
+(
+'EMP003',
+'Amit',
+'Kumar',
+'amit.kumar@gmail.com',
+'9876543212',
+'Male',
+'1996-07-25',
+'Puri, Odisha',
+3,
+52000,
+'2022-12-12',
+NULL,
+1
+),
+
+(
+'EMP004',
+'Sneha',
+'Das',
+'sneha.das@gmail.com',
+'9876543213',
+'Female',
+'1995-11-08',
+'Berhampur, Odisha',
+1,
+60000,
+'2021-09-15',
+NULL,
+1
+),
+
+(
+'EMP005',
+'Rakesh',
+'Mohanty',
+'rakesh@gmail.com',
+'9876543214',
+'Male',
+'1994-02-17',
+'Balasore, Odisha',
+4,
+55000,
+'2020-06-01',
+NULL,
+1
+);
+
+INSERT INTO Attendance
+(
+EmployeeId,
+AttendanceDate,
+Status
+)
+VALUES
+
+(1,GETDATE(),'Present'),
+
+(2,GETDATE(),'Present'),
+
+(3,GETDATE(),'Absent'),
+
+(4,GETDATE(),'Present'),
+
+(5,GETDATE(),'Leave'),
+
+(1,'2026-07-16','Present'),
+
+(2,'2026-07-16','Present'),
+
+(3,'2026-07-16','Present'),
+
+(4,'2026-07-16','Absent'),
+
+(5,'2026-07-16','Present');
+
+
+INSERT INTO Users
+(
+UserName,
+PasswordHash,
+Role,
+IsActive
+)
+VALUES
+(
+'manager',
+'$2a$11$QJmM0QqLhC3I4PK2vQ9wWemvWJ4mHqKzE3dV5FJfD8oQb2k2zY9jS',
+'Manager',
+1
+);
+
+
+SELECT * FROM Departments;
+
+SELECT * FROM Employees;
+
+SELECT * FROM Attendance;
+
+SELECT * FROM Users;
